@@ -1,0 +1,39 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "blox fruir",
+   LoadingTitle = "Rayfield UI",
+   LoadingSubtitle = "loc.lua",
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "MyRayfield",
+      FileName = "Config"
+   }
+})
+
+-- Main Tab
+local MainTab = Window:CreateTab("Main Blox Fruit", 4483362458)
+
+MainTab:CreateButton({
+   Name = "BlueX Hub",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/Main.lua"))()
+   end
+})
+
+MainTab:CreateButton({
+   Name = "Banana Hub",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/kimprobloxdz/Banana-Free/refs/heads/main/Protected_5609200582002947.lua.txt"))()
+   end
+})
+
+MainTab:CreateButton({
+   Name = "Hiru Hub",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/NGUYENVUDUY1/Source/main/HiruHub.lua"))()
+   end
+})
+
+Rayfield:LoadConfiguration()
