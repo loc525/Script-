@@ -1,0 +1,109 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "TSB Loc",
+   LoadingTitle = "Rayfield UI",
+   LoadingSubtitle = "loc.lua",
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "MyRayfield",
+      FileName = "Config"
+   }
+})
+
+-- Tabs
+local Tab = Window:CreateTab("Scripts", 4483362458)
+local FixTab = Window:CreateTab("Fix", 4483362458)
+local EmoteTab = Window:CreateTab("Emote", 4483362458)
+
+-- Suba Tech
+Tab:CreateButton({
+   Name = "Suba Tech 1",
+   Callback = function()
+      loadstring(game:HttpGet("https://api.jkine.com/api/v1/luascripts/public/665ce52316cff766428b4de62c71086e947c40c3fceb403d88ecc16a5339997f/download"))()
+   end
+})
+
+-- Trash
+Tab:CreateButton({
+   Name = "Trash 2",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/yes1nt/yes/main/Trashcan%20Man"))()
+   end
+})
+
+-- Kiba
+Tab:CreateButton({
+   Name = "Kiba Tech 3",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/yqantg-pixel/Find/main/Protected_1593573630798166.lua.txt"))()
+   end
+})
+
+-- Auto Farm
+Tab:CreateButton({
+   Name = "Auto Farm",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/minhnhatdepzai8-cloud/FARM-KILL/main/TSB"))()
+   end
+})
+
+-- FE Trolling Player
+Tab:CreateButton({
+   Name = "FE Trolling Player",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/3LD4D0/FE-TROLLING-PLAYER-R6-R15/6eff8792afed57458d5114478b453a6f6bce5799/Fe%20trolling%20Player%20R6%20AND%20R15"))()
+   end
+})
+
+-- Anti Fling + Anti Void
+FixTab:CreateButton({
+   Name = "Anti Fling + Anti Void",
+   Callback = function()
+
+      local player = game.Players.LocalPlayer
+      local RunService = game:GetService("RunService")
+
+      local function setupCharacter(character)
+
+         local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+         local lastSafePosition = humanoidRootPart.CFrame
+
+         RunService.Heartbeat:Connect(function()
+
+            if humanoidRootPart.Velocity.Magnitude > 50 then
+               humanoidRootPart.Velocity = Vector3.new(0,0,0)
+            end
+
+            if humanoidRootPart.RotVelocity.Magnitude > 50 then
+               humanoidRootPart.RotVelocity = Vector3.new(0,0,0)
+            end
+
+            if humanoidRootPart.Position.Y < -100 then
+               humanoidRootPart.CFrame = lastSafePosition
+            end
+
+            if humanoidRootPart.Velocity.Magnitude < 50 then
+               lastSafePosition = humanoidRootPart.CFrame
+            end
+
+         end)
+      end
+
+      if player.Character then
+         setupCharacter(player.Character)
+      end
+
+      player.CharacterAdded:Connect(setupCharacter)
+
+   end
+})
+
+-- EMOTE SCRIPT
+EmoteTab:CreateButton({
+   Name = "Emote UI",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/IdkRandomUsernameok/PublicAssets/refs/heads/main/Releases/MUI.lua"))()
+   end
+})
