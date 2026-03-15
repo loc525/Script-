@@ -1,0 +1,137 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local target = nil
+local enabled = false
+local depth = -5,5
+
+local highlight
+
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.Parent = game.CoreGui
+
+local frame = Instance.new("Frame")
+frame.Parent = gui
+frame.Size = UDim2.new(0,160,0,140)
+frame.Position = UDim2.new(0,100,0,200)
+frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.Active = true
+frame.Draggable = true
+
+local title = Instance.new("TextLabel")
+title.Parent = frame
+title.Size = UDim2.new(1,0,0,25)
+title.Text = "LOC"
+title.BackgroundColor3 = Color3.fromRGB(50,50,50)
+title.TextColor3 = Color3.new(1,1,1)
+
+-- ô nhập tên
+local box = Instance.new("TextBox")
+box.Parent = frame
+box.Size = UDim2.new(1,-10,0,25)
+box.Position = UDim2.new(0,5,0,30)
+box.PlaceholderText = "Name..."
+box.Text = ""
+box.BackgroundColor3 = Color3.fromRGB(60,60,60)
+box.TextColor3 = Color3.new(1,1,1)
+
+-- toggle
+local toggle = Instance.new("TextButton")
+toggle.Parent = frame
+toggle.Size = UDim2.new(1,-10,0,25)
+toggle.Position = UDim2.new(0,5,0,65)
+toggle.Text = "OFF"
+toggle.BackgroundColor3 = Color3.fromRGB(150,0,0)
+toggle.TextColor3 = Color3.new(1,1,1)
+
+-- tìm player theo chữ đầu
+local function findPlayer(name)
+
+	name = string.lower(name)
+
+	for _,plr in pairs(Players:GetPlayers()) do
+		if string.sub(string.lower(plr.Name),1,#name) == name then
+			return plr
+		end
+	end
+
+end
+
+-- khi gõ xong
+box.FocusLost:Connect(function()
+
+	local plr = findPlayer(box.Text)
+
+	if plr then
+		target = plr
+
+		if highlight then
+			highlight:Destroy()
+		end
+
+		if plr.Character then
+			highlight = Instance.new("Highlight")
+			highlight.Parent = plr.Character
+			highlight.FillTransparency = 1
+		end
+	end
+
+end)
+
+-- toggle
+toggle.MouseButton1Click:Connect(function()
+
+	enabled = not enabled
+
+	if enabled then
+		toggle.Text = "ON"
+		toggle.BackgroundColor3 = Color3.fromRGB(0,170,0)
+	else
+		toggle.Text = "OFF"
+		toggle.BackgroundColor3 = Color3.fromRGB(150,0,0)
+	end
+
+end)
+
+-- rainbow highlight
+RunService.Heartbeat:Connect(function()
+
+	if highlight then
+		local t = tick()*2
+		highlight.OutlineColor = Color3.fromHSV(t%1,1,1)
+	end
+
+end)
+
+-- follow
+RunService.Heartbeat:Connect(function()
+
+	if enabled and target and player.Character and target.Character then
+
+		local root = player.Character:FindFirstChild("HumanoidRootPart")
+		local troot = target.Character:FindFirstChild("HumanoidRootPart")
+		local hum = player.Character:FindFirstChild("Humanoid")
+
+		if root and troot and hum then
+
+			hum.AutoRotate = false
+			hum.PlatformStand = true
+
+			root.AssemblyLinearVelocity = Vector3.zero
+			root.AssemblyAngularVelocity = Vector3.zero
+
+			root.CFrame =
+				CFrame.new(
+					troot.Position.X,
+					troot.Position.Y + depth,
+					troot.Position.Z
+				) *
+				CFrame.Angles(math.rad(90),0,0)
+
+		end
+
+	end
+
+end)
